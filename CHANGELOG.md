@@ -36,21 +36,58 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ---
 
+### Etapa 1 - Fundaciones (2025-11-10)
+
+#### Added
+
+**Packages:**
+- ✅ `@keep-plus-plus/types`: Sistema completo de tipos
+  - Entidades (User, Note, Tag, Property, Reminder, Sync)
+  - Eventos de dominio
+  - DTOs para comunicación API
+  - Tipos utilitarios
+- ✅ `@keep-plus-plus/ui`: Sistema de diseño y componentes
+  - Paleta de colores completa (12 note colors, semantic, neutral)
+  - Sistema de tipografía
+  - Espaciado, sombras, bordes
+  - ThemeProvider con soporte light/dark
+  - Componentes base: Button, Input
+  - CSS Modules para estilos scoped
+
+**Web App:**
+- ✅ Configuración React + Vite + TypeScript
+- ✅ PWA con vite-plugin-pwa y service worker
+- ✅ React Router v6 con rutas configuradas
+- ✅ Layout con Header y Sidebar responsivo
+- ✅ Páginas: Home, Login, NotFound
+- ✅ Integración con sistema de diseño
+- ✅ Theming dinámico (light/dark)
+- ✅ Estilos globales y CSS Modules
+
+#### Features
+- Sistema de diseño completo y accesible (WCAG 2.1 AA)
+- Soporte para modo oscuro con persistencia
+- Arquitectura component-based escalable
+- Path aliases para imports limpios
+- Build optimizado con Vite
+
+---
+
 ## Próximos Hitos
 
-### Etapa 1 - Fundaciones (Semana 1)
-- [ ] Diseño UI/UX base
-- [ ] Sistema de diseño (theming)
-- [ ] Componentes UI base
-- [ ] Scaffolding de apps (web, mobile, desktop)
-- [ ] Router configurado
-- [ ] Stub de autenticación
-
 ### Etapa 2 - Core Notas (Semana 2)
-- [ ] CRUD de notas
+- [ ] Implementar package `@keep-plus-plus/core`
+- [ ] CRUD de notas completo
 - [ ] Sistema de etiquetas
 - [ ] Pin/archivo/papelera
 - [ ] Colores por nota
+- [ ] Almacenamiento local (IndexedDB)
+
+### Etapa 3 - Propiedades Tipadas (Semanas 3-4)
+- [ ] Modelo PropertyDef/PropertyVal
+- [ ] Tipos: texto, número, fecha, checkbox, select, multiselect, URL
+- [ ] Validación por tipo
+- [ ] UI de gestión de propiedades
 
 Ver [roadmap.md](./docs/roadmap.md) para el plan completo.
 
@@ -58,8 +95,8 @@ Ver [roadmap.md](./docs/roadmap.md) para el plan completo.
 
 ## Estado del Proyecto
 
-**Actual**: 🟢 Etapa 0 completada
+**Actual**: 🟢 Etapa 1 completada (Fundaciones)
 
-**Próximo**: Etapa 1 - Fundaciones
+**Próximo**: Etapa 2 - Core Notas (CRUD básico)
 
 **Meta**: Beta GA en Semana 10
