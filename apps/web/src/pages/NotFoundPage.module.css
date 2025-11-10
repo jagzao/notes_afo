@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 2rem;
+}
+
+.content {
+  text-align: center;
+  max-width: 500px;
+}
+
+.code {
+  font-size: 6rem;
+  font-weight: 700;
+  color: #f99b16;
+  margin: 0 0 1rem;
+  line-height: 1;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #202124;
+  margin: 0 0 1rem;
+}
+
+:global(.dark) .title {
+  color: #e8eaed;
+}
+
+.description {
+  font-size: 1rem;
+  color: #5f6368;
+  margin: 0 0 2rem;
+  line-height: 1.5;
+}
+
+:global(.dark) .description {
+  color: #9aa0a6;
+}
