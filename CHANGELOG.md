@@ -73,21 +73,76 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ---
 
-## Próximos Hitos
+### Etapa 2 - Core Notas (2025-11-10)
 
-### Etapa 2 - Core Notas (Semana 2)
-- [ ] Implementar package `@keep-plus-plus/core`
-- [ ] CRUD de notas completo
-- [ ] Sistema de etiquetas
-- [ ] Pin/archivo/papelera
-- [ ] Colores por nota
-- [ ] Almacenamiento local (IndexedDB)
+#### Added
+
+**Package `@keep-plus-plus/storage`:**
+- ✅ IndexedDB setup con schema y migraciones
+- ✅ NotesRepository con CRUD completo
+- ✅ TagsRepository con relaciones many-to-many
+- ✅ Índices optimizados para queries rápidas
+- ✅ Sistema de versionado de database
+- ✅ Utilities (generateId, device tracking)
+
+**Notes Repository:**
+- ✅ Create, Read, Update, Delete notas
+- ✅ Pin/unpin functionality
+- ✅ Archive/unarchive functionality
+- ✅ Trash con auto-cleanup (30 días)
+- ✅ Full-text search
+- ✅ Filtering y sorting
+- ✅ State management (active/archived/trashed)
+
+**Tags Repository:**
+- ✅ CRUD completo de tags
+- ✅ Assign/remove tags de notas
+- ✅ Get tags para nota y notes para tag
+- ✅ Tag usage statistics
+- ✅ Search tags by name
+
+**Componentes Web:**
+- ✅ NoteCard con actions (pin, archive, delete)
+- ✅ NoteList con secciones pinned/unpinned
+- ✅ NotesContext para state management global
+- ✅ useNotes hook personalizado
+- ✅ Loading y empty states
+- ✅ Responsive grid layout
+
+**Funcionalidad Completa:**
+- ✅ Crear notas vacías para editar
+- ✅ Ver todas las notas en grid
+- ✅ Pin/unpin notas
+- ✅ Archive/unarchive notas
+- ✅ Mover a papelera
+- ✅ Ordenar por fecha (pinned primero)
+- ✅ Persistencia offline con IndexedDB
+
+#### Features
+- CRUD completo de notas con persistencia local
+- Operaciones optimistas en UI
+- Error handling y recovery
+- Auto-inicialización de database
+- State management con React Context
+- Formato de fechas relativo (Today, Yesterday, etc.)
+- Responsive design
+
+---
+
+## Próximos Hitos
 
 ### Etapa 3 - Propiedades Tipadas (Semanas 3-4)
 - [ ] Modelo PropertyDef/PropertyVal
 - [ ] Tipos: texto, número, fecha, checkbox, select, multiselect, URL
 - [ ] Validación por tipo
 - [ ] UI de gestión de propiedades
+- [ ] Editor de propiedades por nota
+
+### Etapa 4 - Búsqueda y Filtros (Semana 4)
+- [ ] Full-text search mejorado
+- [ ] Filtros por tags
+- [ ] Filtros por propiedades
+- [ ] Orden avanzado
 
 Ver [roadmap.md](./docs/roadmap.md) para el plan completo.
 
@@ -95,8 +150,10 @@ Ver [roadmap.md](./docs/roadmap.md) para el plan completo.
 
 ## Estado del Proyecto
 
-**Actual**: 🟢 Etapa 1 completada (Fundaciones)
+**Actual**: 🟢 Etapa 2 completada (Core Notas - CRUD)
 
-**Próximo**: Etapa 2 - Core Notas (CRUD básico)
+**Próximo**: Etapa 3 - Propiedades Tipadas
+
+**Progreso**: 2/12 etapas (16.7%)
 
 **Meta**: Beta GA en Semana 10
