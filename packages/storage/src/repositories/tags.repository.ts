@@ -111,7 +111,7 @@ export class TagsRepository {
     const noteTags = await noteTagsIndex.getAll(id);
 
     for (const noteTag of noteTags) {
-      await tx.objectStore('noteTags').delete([noteTag.noteId, noteTag.tagId]);
+      await tx.objectStore('noteTags').delete([noteTag.noteId, noteTag.tagId] as unknown as string);
     }
 
     await tx.done;
@@ -124,7 +124,7 @@ export class TagsRepository {
     const db = getDatabase();
 
     // Check if already assigned
-    const existing = await db.get('noteTags', [noteId, tagId]);
+    const existing = await db.get('noteTags', [noteId, tagId] as unknown as string);
     if (existing) {
       return existing;
     }
@@ -144,7 +144,7 @@ export class TagsRepository {
    */
   async removeFromNote(noteId: string, tagId: string): Promise<void> {
     const db = getDatabase();
-    await db.delete('noteTags', [noteId, tagId]);
+    await db.delete('noteTags', [noteId, tagId] as unknown as string);
   }
 
   /**

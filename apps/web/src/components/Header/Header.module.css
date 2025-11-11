@@ -4,15 +4,15 @@
   gap: 1rem;
   padding: 0.75rem 1.5rem;
   background-color: #ffffff;
-  border-bottom: 1px solid #dadce0;
+  border-bottom: 1px solid #E5E5E5;
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
 :global(.dark) .header {
-  background-color: #292a2d;
-  border-bottom-color: #5f6368;
+  background-color: #0A0A0A;
+  border-bottom-color: #2A2A2A;
 }
 
 .left {
@@ -24,9 +24,10 @@
 
 .logo {
   font-size: 1.25rem;
-  font-weight: 600;
-  color: #f99b16;
+  font-weight: 700;
+  color: #DC2626;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .center {
@@ -39,35 +40,36 @@
   width: 100%;
   padding: 0.625rem 1rem;
   font-size: 0.875rem;
-  background-color: #f1f3f4;
+  background-color: #F5F5F5;
   border: 1px solid transparent;
   border-radius: 0.5rem;
   transition: all 200ms;
+  color: #0A0A0A;
 }
 
 .search:hover {
-  background-color: #e8eaed;
+  background-color: #E5E5E5;
 }
 
 .search:focus {
   outline: none;
   background-color: #ffffff;
-  border-color: #1967d2;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-color: #DC2626;
+  box-shadow: 0 1px 3px rgba(220, 38, 38, 0.1);
 }
 
 :global(.dark) .search {
-  background-color: #303134;
-  color: #e8eaed;
+  background-color: #1A1A1A;
+  color: #FAFAFA;
 }
 
 :global(.dark) .search:hover {
-  background-color: #3c4043;
+  background-color: #262626;
 }
 
 :global(.dark) .search:focus {
-  background-color: #292a2d;
-  border-color: #8ab4f8;
+  background-color: #171717;
+  border-color: #EF4444;
 }
 
 .right {

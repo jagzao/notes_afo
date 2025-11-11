@@ -17,7 +17,7 @@ export async function initDatabase(): Promise<IDBPDatabase<KeepPlusPlusDB>> {
   }
 
   dbInstance = await openDB<KeepPlusPlusDB>(DB_NAME, DB_VERSION, {
-    upgrade(db, oldVersion, newVersion, transaction) {
+    upgrade(db, oldVersion, newVersion, _transaction) {
       console.log(`Upgrading database from v${oldVersion} to v${newVersion}`);
 
       // Version 1: Initial schema

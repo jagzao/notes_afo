@@ -20,18 +20,18 @@ export const colors = {
     chalk: '#EFEFF1',
   },
 
-  // Semantic colors
+  // Semantic colors - Red/Black theme
   primary: {
-    50: '#FEF3E2',
-    100: '#FDE1B8',
-    200: '#FCCD8A',
-    300: '#FBB95C',
-    400: '#FAAA39',
-    500: '#F99B16',
-    600: '#F89313',
-    700: '#F78910',
-    800: '#F67F0C',
-    900: '#F56D06',
+    50: '#FEE2E2',   // Very light red
+    100: '#FECACA',  // Light red
+    200: '#FCA5A5',  // Lighter red
+    300: '#F87171',  // Light-medium red
+    400: '#EF4444',  // Medium red
+    500: '#DC2626',  // Base red (primary)
+    600: '#B91C1C',  // Dark red
+    700: '#991B1B',  // Darker red
+    800: '#7F1D1D',  // Very dark red
+    900: '#450A0A',  // Almost black red
   },
 
   secondary: {
@@ -90,52 +90,52 @@ export const colors = {
   light: {
     background: {
       primary: '#FFFFFF',
-      secondary: '#F8F9FA',
-      tertiary: '#F1F3F4',
+      secondary: '#F5F5F5',
+      tertiary: '#E5E5E5',
     },
     surface: {
       primary: '#FFFFFF',
-      secondary: '#F8F9FA',
+      secondary: '#FAFAFA',
       elevated: '#FFFFFF',
     },
     text: {
-      primary: '#202124',
-      secondary: '#5F6368',
-      tertiary: '#80868B',
-      disabled: '#9AA0A6',
+      primary: '#0A0A0A',      // Almost black
+      secondary: '#404040',     // Dark gray
+      tertiary: '#737373',      // Medium gray
+      disabled: '#A3A3A3',      // Light gray
     },
     border: {
-      primary: '#DADCE0',
-      secondary: '#E8EAED',
-      focus: '#1967D2',
+      primary: '#D4D4D4',
+      secondary: '#E5E5E5',
+      focus: '#DC2626',         // Red focus
     },
-    divider: '#E8EAED',
+    divider: '#E5E5E5',
   },
 
-  // Neutral colors for dark theme
+  // Neutral colors for dark theme - Deep black with red accents
   dark: {
     background: {
-      primary: '#202124',
-      secondary: '#292A2D',
-      tertiary: '#303134',
+      primary: '#0A0A0A',       // Almost pure black
+      secondary: '#1A1A1A',     // Very dark gray
+      tertiary: '#262626',      // Dark gray
     },
     surface: {
-      primary: '#292A2D',
-      secondary: '#303134',
-      elevated: '#3C4043',
+      primary: '#171717',       // Very dark gray
+      secondary: '#262626',     // Dark gray
+      elevated: '#2A2A2A',      // Elevated dark gray
     },
     text: {
-      primary: '#E8EAED',
-      secondary: '#9AA0A6',
-      tertiary: '#80868B',
-      disabled: '#5F6368',
+      primary: '#FAFAFA',       // Almost white
+      secondary: '#D4D4D4',     // Light gray
+      tertiary: '#A3A3A3',      // Medium gray
+      disabled: '#737373',      // Dark gray
     },
     border: {
-      primary: '#5F6368',
-      secondary: '#3C4043',
-      focus: '#8AB4F8',
+      primary: '#404040',
+      secondary: '#2A2A2A',
+      focus: '#EF4444',         // Bright red focus
     },
-    divider: '#3C4043',
+    divider: '#2A2A2A',
   },
 
   // Common colors (theme-independent)

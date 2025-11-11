@@ -1,4 +1,5 @@
 import type { Note } from '@keep-plus-plus/types';
+import { motion } from 'framer-motion';
 import { NoteCard } from '../NoteCard/NoteCard';
 import styles from './NoteList.module.css';
 
@@ -11,6 +12,16 @@ interface NoteListProps {
   loading?: boolean;
   emptyMessage?: string;
 }
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
 
 export const NoteList: React.FC<NoteListProps> = ({
   notes,
@@ -49,8 +60,13 @@ export const NoteList: React.FC<NoteListProps> = ({
       {pinnedNotes.length > 0 && (
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Pinned</h2>
-          <div className={styles.grid}>
-            {pinnedNotes.map((note) => (
+          <motion.div
+            className={styles.grid}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {pinnedNotes.map((note, index) => (
               <NoteCard
                 key={note.id}
                 note={note}
@@ -58,17 +74,23 @@ export const NoteList: React.FC<NoteListProps> = ({
                 onPin={onPinNote}
                 onArchive={onArchiveNote}
                 onDelete={onDeleteNote}
+                index={index}
               />
             ))}
-          </div>
+          </motion.div>
         </section>
       )}
 
       {unpinnedNotes.length > 0 && (
         <section className={styles.section}>
           {pinnedNotes.length > 0 && <h2 className={styles.sectionTitle}>Others</h2>}
-          <div className={styles.grid}>
-            {unpinnedNotes.map((note) => (
+          <motion.div
+            className={styles.grid}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {unpinnedNotes.map((note, index) => (
               <NoteCard
                 key={note.id}
                 note={note}
@@ -76,9 +98,10 @@ export const NoteList: React.FC<NoteListProps> = ({
                 onPin={onPinNote}
                 onArchive={onArchiveNote}
                 onDelete={onDeleteNote}
+                index={index}
               />
             ))}
-          </div>
+          </motion.div>
         </section>
       )}
     </div>

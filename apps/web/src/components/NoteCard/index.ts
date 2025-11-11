@@ -1,1 +1,1 @@
-export { NoteCard } from './NoteCard/NoteCard';
+export { NoteCard } from './NoteCard';

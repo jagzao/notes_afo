@@ -59,6 +59,8 @@ export interface UpdateNoteInput {
   color?: NoteColor;
   pinned?: boolean;
   archived?: boolean;
+  trashed?: boolean;
+  trashedAt?: Date;
 }
 
 export type NoteState = 'active' | 'archived' | 'trashed';

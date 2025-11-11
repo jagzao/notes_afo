@@ -1,5 +1,6 @@
 import type { Note } from '@keep-plus-plus/types';
 import { NOTE_COLORS } from '@keep-plus-plus/types';
+import { motion } from 'framer-motion';
 import styles from './NoteCard.module.css';
 
 interface NoteCardProps {
@@ -8,7 +9,37 @@ interface NoteCardProps {
   onPin?: (noteId: string) => void;
   onArchive?: (noteId: string) => void;
   onDelete?: (noteId: string) => void;
+  index?: number;
 }
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
+  visible: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: index * 0.05,
+      duration: 0.3,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  }),
+  hover: {
+    y: -4,
+    scale: 1.02,
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.15)',
+    transition: {
+      duration: 0.2,
+      ease: 'easeOut',
+    },
+  },
+  tap: {
+    scale: 0.98,
+    transition: {
+      duration: 0.1,
+    },
+  },
+};
 
 export const NoteCard: React.FC<NoteCardProps> = ({
   note,
@@ -16,6 +47,7 @@ export const NoteCard: React.FC<NoteCardProps> = ({
   onPin,
   onArchive,
   onDelete,
+  index = 0,
 }) => {
   const backgroundColor = NOTE_COLORS[note.color] || NOTE_COLORS.default;
 
@@ -47,12 +79,19 @@ export const NoteCard: React.FC<NoteCardProps> = ({
   };
 
   return (
-    <div
+    <motion.div
       className={styles.card}
       style={{ backgroundColor }}
       onClick={handleClick}
       role="article"
       aria-label={note.title || 'Untitled note'}
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      whileHover="hover"
+      whileTap="tap"
+      custom={index}
+      layout
     >
       {note.pinned && (
         <div className={styles.pinnedBadge} title="Pinned">
@@ -102,7 +141,7 @@ export const NoteCard: React.FC<NoteCardProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

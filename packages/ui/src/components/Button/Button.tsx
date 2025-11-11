@@ -38,17 +38,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           styles.button,
           styles[variant],
           styles[size],
-          {
-            [styles.fullWidth]: fullWidth,
-            [styles.loading]: loading,
-          },
+          fullWidth && styles.fullWidth,
+          loading && styles.loading,
           className
         )}
         disabled={disabled || loading}
         {...props}
       >
         {loading && <span className={styles.spinner} aria-hidden="true" />}
-        <span className={cn({ [styles.loadingText]: loading })}>{children}</span>
+        <span className={cn(loading && styles.loadingText)}>{children}</span>
       </button>
     );
   }

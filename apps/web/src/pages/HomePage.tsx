@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from '@keep-plus-plus/ui';
 import { useNotes } from '../context/NotesContext';
 import { NoteList } from '../components/NoteList/NoteList';
@@ -7,7 +6,6 @@ import styles from './HomePage.module.css';
 
 export const HomePage = () => {
   const { notes, loading, createNote, pinNote, archiveNote, moveToTrash } = useNotes();
-  const [showNewNote, setShowNewNote] = useState(false);
 
   const handleCreateNote = async () => {
     const input: CreateNoteInput = {

@@ -159,7 +159,6 @@ export class NotesRepository {
       throw new Error(`Note not found: ${id}`);
     }
 
-    const { trashedAt, ...rest } = note;
     return this.update(id, {
       trashed: false,
       trashedAt: undefined,

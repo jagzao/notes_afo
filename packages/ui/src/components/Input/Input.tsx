@@ -39,7 +39,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const hasError = Boolean(error);
 
     return (
-      <div className={cn(styles.container, { [styles.fullWidth]: fullWidth })}>
+      <div className={cn(styles.container, fullWidth && styles.fullWidth)}>
         {label && (
           <label htmlFor={inputId} className={styles.label}>
             {label}
@@ -55,11 +55,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className={cn(
               styles.input,
               styles[inputSize],
-              {
-                [styles.error]: hasError,
-                [styles.withLeftIcon]: leftIcon,
-                [styles.withRightIcon]: rightIcon,
-              },
+              hasError && styles.error,
+              leftIcon && styles.withLeftIcon,
+              rightIcon && styles.withRightIcon,
               className
             )}
             disabled={disabled}
