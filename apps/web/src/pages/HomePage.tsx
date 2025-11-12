@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { Button } from '@keep-plus-plus/ui';
 import { useNotes } from '../context/NotesContext';
 import { NoteList } from '../components/NoteList/NoteList';
-import type { Note, CreateNoteInput } from '@keep-plus-plus/types';
+import { NoteEditor } from '../components/NoteEditor';
+import type { Note, CreateNoteInput, NoteColor } from '@keep-plus-plus/types';
 import styles from './HomePage.module.css';
 
 export const HomePage = () => {
-  const { notes, loading, createNote, pinNote, archiveNote, moveToTrash } = useNotes();
+  const { notes, loading, createNote, updateNote, pinNote, archiveNote, moveToTrash } = useNotes();
+  const [editingNote, setEditingNote] = useState<Note | null>(null);
 
   const handleCreateNote = async () => {
     const input: CreateNoteInput = {
@@ -21,8 +24,29 @@ export const HomePage = () => {
   };
 
   const handleNoteClick = (note: Note) => {
-    // TODO: Open note editor modal
-    console.log('Clicked note:', note);
+    setEditingNote(note);
+  };
+
+  const handleCloseEditor = () => {
+    setEditingNote(null);
+  };
+
+  const handleSaveNote = async (noteId: string, updates: { title?: string; description?: string; color?: NoteColor }) => {
+    try {
+      await updateNote(noteId, updates);
+    } catch (error) {
+      console.error('Failed to save note:', error);
+      throw error;
+    }
+  };
+
+  const handleColorChange = async (noteId: string, color: NoteColor) => {
+    try {
+      await updateNote(noteId, { color });
+    } catch (error) {
+      console.error('Failed to change note color:', error);
+      throw error;
+    }
   };
 
   const handlePinNote = async (noteId: string) => {
@@ -66,6 +90,17 @@ export const HomePage = () => {
         onArchiveNote={handleArchiveNote}
         onDeleteNote={handleDeleteNote}
         emptyMessage="No notes yet"
+      />
+
+      <NoteEditor
+        note={editingNote}
+        isOpen={editingNote !== null}
+        onClose={handleCloseEditor}
+        onSave={handleSaveNote}
+        onPin={handlePinNote}
+        onArchive={handleArchiveNote}
+        onDelete={handleDeleteNote}
+        onColorChange={handleColorChange}
       />
     </div>
   );
