@@ -169,6 +169,66 @@
   color: #059669;
 }
 
+/* Properties Section */
+.propertiesSection {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.propertiesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.propertiesTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.addPropertyButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background-color: rgba(220, 38, 38, 0.1);
+  color: #DC2626;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addPropertyButton:hover {
+  background-color: rgba(220, 38, 38, 0.2);
+}
+
+.addPropertyButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.propertiesList {
+  display: flex;
+  flex-direction: column;
+}
+
+.emptyProperties {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
 /* Dark mode */
 :global(body.dark) .modal {
   background-color: #1A1A1A;

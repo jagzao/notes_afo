@@ -25,3 +25,25 @@ export function generateId(): string {
 export function generateShortId(): string {
   return Math.random().toString(36).substring(2, 10);
 }
+
+/**
+ * Get or generate a device ID (stored in localStorage)
+ */
+export function getDeviceId(): string {
+  const DEVICE_ID_KEY = 'keep-plus-plus-device-id';
+
+  // Try to get from localStorage
+  if (typeof localStorage !== 'undefined') {
+    let deviceId = localStorage.getItem(DEVICE_ID_KEY);
+
+    if (!deviceId) {
+      deviceId = generateId();
+      localStorage.setItem(DEVICE_ID_KEY, deviceId);
+    }
+
+    return deviceId;
+  }
+
+  // Fallback if localStorage is not available
+  return 'local-device';
+}

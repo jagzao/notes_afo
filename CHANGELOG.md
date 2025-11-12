@@ -265,22 +265,83 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ---
 
+### Etapa 7 - Propiedades Tipadas (2025-11-12)
+
+#### Added
+- ✅ **PropertiesRepository** en @keep-plus-plus/storage
+  - CRUD completo de PropertyDefinitions
+  - CRUD de PropertyValues
+  - Método findAllPropertiesWithValues para obtener propiedades con sus valores
+  - Reordenamiento de propiedades por nota
+  - Eliminación en cascada al borrar propiedades
+  - Device tracking para sync futuro
+
+- ✅ **PropertiesContext** para gestión de estado
+  - createProperty, updateProperty, deleteProperty
+  - setPropertyValue, deletePropertyValue
+  - getPropertiesWithValues para carga completa
+  - Validación de tipos al asignar valores
+
+- ✅ **PropertyField Component** con soporte para 7 tipos:
+  - **Text**: Input de texto con auto-guardado al blur
+  - **Number**: Input numérico con validación
+  - **Date**: Date picker con formato ISO
+  - **Checkbox**: Toggle booleano con visual Yes/No
+  - **Select**: Dropdown de opciones únicas
+  - **Multi-select**: Dropdown de opciones múltiples con chips removibles
+  - **URL**: Input de URL con validación y link externo
+
+- ✅ **PropertyAddModal Component**
+  - Formulario completo para crear propiedades
+  - Auto-generación de key desde label
+  - Builder de opciones para select/multiselect
+  - Checkbox de campo requerido
+  - Validación de campos
+  - Animaciones Framer Motion
+
+- ✅ **Integración en NoteEditor**
+  - Sección "Properties" con header y botón "Add Property"
+  - Lista de todas las propiedades con sus valores
+  - Edición inline de valores
+  - Eliminación de propiedades
+  - Empty state cuando no hay propiedades
+
+- ✅ **Display en NoteCard**
+  - Muestra hasta 3 propiedades en la tarjeta
+  - Indicador "+N more" si hay más de 3
+  - Formato apropiado según tipo (✓/✗ para checkbox, etc.)
+  - Layout compacto con label: value
+
+- ✅ **getDeviceId Utility**
+  - Generación y persistencia de device ID en localStorage
+  - Fallback para entornos sin localStorage
+  - Usado para tracking de cambios multi-dispositivo
+
+#### Features
+- Sistema completo de propiedades tipadas estilo Notion
+- 7 tipos de propiedades diferentes con validación
+- UI intuitiva para crear y editar propiedades
+- Auto-guardado de valores al editar
+- Preparado para sync multi-dispositivo
+
+---
+
 ## Estado del Proyecto
 
-**Actual**: 🟢 Etapa 6 completada (Búsqueda y Filtros)
+**Actual**: 🟢 Etapa 7 completada (Propiedades Tipadas)
 
-**Próximo**: Etapa 7 - Propiedades Tipadas (Notion-style)
+**Próximo**: Etapa 8 - Sistema de Recordatorios
 
-**Progreso**: 6/12 etapas (50%)
+**Progreso**: 7/12 etapas (58.3%)
 
-**Meta**: MVP funcional alcanzado
+**Meta**: MVP funcional completado - Sistema de propiedades agregado
 
 ## Build Statistics (Actual)
 
 - **@keep-plus-plus/types**: 11.63 KB
 - **@keep-plus-plus/ui**: 16.34 KB + themes
-- **@keep-plus-plus/storage**: 15.66 KB
-- **@keep-plus-plus/web**: 321.72 KB (gzipped: 104.90 KB)
+- **@keep-plus-plus/storage**: 23.68 KB (increased due to properties repository)
+- **@keep-plus-plus/web**: 342.13 KB (gzipped: 109.94 KB)
 
 ## Tecnologías Utilizadas
 

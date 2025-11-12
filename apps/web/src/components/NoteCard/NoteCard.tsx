@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import type { Note, Tag } from '@keep-plus-plus/types';
+import type { Note, Tag, PropertyDefinition, PropertyValue } from '@keep-plus-plus/types';
 import { NOTE_COLORS } from '@keep-plus-plus/types';
 import { motion } from 'framer-motion';
 import { TagBadge } from '../TagBadge';
 import { useTags } from '../../context/TagsContext';
+import { useProperties } from '../../context/PropertiesContext';
 import styles from './NoteCard.module.css';
 
 interface NoteCardProps {
@@ -54,7 +55,9 @@ export const NoteCard: React.FC<NoteCardProps> = ({
 }) => {
   const backgroundColor = NOTE_COLORS[note.color] || NOTE_COLORS.default;
   const [noteTags, setNoteTags] = useState<Tag[]>([]);
+  const [properties, setProperties] = useState<Array<{ definition: PropertyDefinition; value: PropertyValue | null }>>([]);
   const { getTagsForNote } = useTags();
+  const { getPropertiesWithValues } = useProperties();
 
   // Load tags for this note
   useEffect(() => {
@@ -69,6 +72,20 @@ export const NoteCard: React.FC<NoteCardProps> = ({
 
     void loadTags();
   }, [note.id, getTagsForNote]);
+
+  // Load properties for this note
+  useEffect(() => {
+    const loadProperties = async () => {
+      try {
+        const props = await getPropertiesWithValues(note.id);
+        setProperties(props);
+      } catch (error) {
+        console.error('Failed to load properties for note:', error);
+      }
+    };
+
+    void loadProperties();
+  }, [note.id, getPropertiesWithValues]);
 
   const handleClick = () => {
     if (onClick) {
@@ -136,6 +153,22 @@ export const NoteCard: React.FC<NoteCardProps> = ({
         </div>
       )}
 
+      {properties.length > 0 && (
+        <div className={styles.properties}>
+          {properties.slice(0, 3).map(({ definition, value }) => (
+            <div key={definition.id} className={styles.propertyItem}>
+              <span className={styles.propertyLabel}>{definition.label}:</span>
+              <span className={styles.propertyValue}>
+                {formatPropertyValue(definition, value)}
+              </span>
+            </div>
+          ))}
+          {properties.length > 3 && (
+            <div className={styles.propertyMore}>+{properties.length - 3} more</div>
+          )}
+        </div>
+      )}
+
       <div className={styles.footer}>
         <span className={styles.date}>{formatDate(note.updatedAt)}</span>
 
@@ -185,5 +218,28 @@ function formatDate(date: Date): string {
     return `${days} days ago`;
   } else {
     return date.toLocaleDateString();
+  }
+}
+
+function formatPropertyValue(definition: PropertyDefinition, value: PropertyValue | null): string {
+  if (!value) return '—';
+
+  switch (definition.type) {
+    case 'text':
+      return value.valueText || '—';
+    case 'number':
+      return value.valueNumber?.toString() || '—';
+    case 'date':
+      return value.valueDate ? new Date(value.valueDate).toLocaleDateString() : '—';
+    case 'checkbox':
+      return value.valueBool ? '✓' : '✗';
+    case 'select':
+      return value.valueSelect?.[0] || '—';
+    case 'multiselect':
+      return value.valueSelect?.join(', ') || '—';
+    case 'url':
+      return value.valueUrl || '—';
+    default:
+      return '—';
   }
 }

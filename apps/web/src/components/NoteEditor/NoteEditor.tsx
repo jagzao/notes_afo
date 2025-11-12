@@ -5,11 +5,14 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Note, NoteColor, Tag } from '@keep-plus-plus/types';
+import type { Note, NoteColor, Tag, PropertyDefinition, PropertyValue, CreatePropertyInput } from '@keep-plus-plus/types';
 import { Button } from '@keep-plus-plus/ui';
 import { ColorPicker } from '../ColorPicker';
 import { TagInput } from '../TagInput';
+import { PropertyField } from '../PropertyField/PropertyField';
+import { PropertyAddModal } from '../PropertyAddModal/PropertyAddModal';
 import { useTags } from '../../context/TagsContext';
+import { useProperties } from '../../context/PropertiesContext';
 import styles from './NoteEditor.module.css';
 
 interface NoteEditorProps {
@@ -39,11 +42,16 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
   const [description, setDescription] = useState('');
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [noteTags, setNoteTags] = useState<Tag[]>([]);
+  const [properties, setProperties] = useState<Array<{ definition: PropertyDefinition; value: PropertyValue | null }>>([]);
+  const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const titleInputRef = useRef<HTMLInputElement>(null);
 
   // Tags context
   const { tags, createTag, assignTagToNote, removeTagFromNote, getTagsForNote } = useTags();
+
+  // Properties context
+  const { getPropertiesWithValues, createProperty, deleteProperty } = useProperties();
 
   // Initialize form with note data
   useEffect(() => {
@@ -61,12 +69,24 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
         }
       };
       void loadNoteTags();
+
+      // Load properties for this note
+      const loadProperties = async () => {
+        try {
+          const props = await getPropertiesWithValues(note.id);
+          setProperties(props);
+        } catch (error) {
+          console.error('Failed to load properties:', error);
+        }
+      };
+      void loadProperties();
     } else {
       setTitle('');
       setDescription('');
       setNoteTags([]);
+      setProperties([]);
     }
-  }, [note, getTagsForNote]);
+  }, [note, getTagsForNote, getPropertiesWithValues]);
 
   // Focus title input when modal opens
   useEffect(() => {
@@ -199,6 +219,29 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
     return await createTag(name);
   };
 
+  const handlePropertyAdd = async (input: CreatePropertyInput) => {
+    if (!note) return;
+
+    try {
+      const property = await createProperty(note.id, input);
+      setProperties((prev) => [...prev, { definition: property, value: null }]);
+    } catch (error) {
+      console.error('Failed to add property:', error);
+      throw error;
+    }
+  };
+
+  const handlePropertyDelete = async (propertyId: string) => {
+    if (!note) return;
+
+    try {
+      await deleteProperty(propertyId);
+      setProperties((prev) => prev.filter((p) => p.definition.id !== propertyId));
+    } catch (error) {
+      console.error('Failed to delete property:', error);
+    }
+  };
+
   if (!note) return null;
 
   return (
@@ -272,6 +315,53 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
                   onTagCreate={handleTagCreate}
                   placeholder="Add tags..."
                 />
+              </div>
+
+              {/* Properties Section */}
+              <div className={styles.propertiesSection}>
+                <div className={styles.propertiesHeader}>
+                  <h3 className={styles.propertiesTitle}>Properties</h3>
+                  <button
+                    className={styles.addPropertyButton}
+                    onClick={() => setIsAddPropertyModalOpen(true)}
+                    type="button"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      width="16"
+                      height="16"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                    Add Property
+                  </button>
+                </div>
+
+                {properties.length > 0 ? (
+                  <div className={styles.propertiesList}>
+                    {properties.map(({ definition, value }) => (
+                      <PropertyField
+                        key={definition.id}
+                        noteId={note.id}
+                        definition={definition}
+                        value={value}
+                        onDelete={handlePropertyDelete}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className={styles.emptyProperties}>
+                    No properties yet. Click "Add Property" to create one.
+                  </div>
+                )}
               </div>
             </div>
 
@@ -361,6 +451,13 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
               </div>
             </div>
           </motion.div>
+
+          {/* Property Add Modal */}
+          <PropertyAddModal
+            isOpen={isAddPropertyModalOpen}
+            onClose={() => setIsAddPropertyModalOpen(false)}
+            onAdd={handlePropertyAdd}
+          />
         </motion.div>
       )}
     </AnimatePresence>
