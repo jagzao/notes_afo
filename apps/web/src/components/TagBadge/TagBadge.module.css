@@ -1,0 +1,64 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(220, 38, 38, 0.1);
+  color: #DC2626;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.tag:hover {
+  background-color: rgba(220, 38, 38, 0.15);
+}
+
+.tagClickable {
+  cursor: pointer;
+}
+
+.tagRemovable {
+  padding-right: 0.25rem;
+}
+
+.removeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0.125rem;
+  cursor: pointer;
+  color: #DC2626;
+  border-radius: 0.125rem;
+  transition: background-color 0.2s;
+}
+
+.removeButton:hover {
+  background-color: rgba(220, 38, 38, 0.2);
+}
+
+.removeButton svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Dark mode */
+:global(body.dark) .tag {
+  background-color: rgba(220, 38, 38, 0.2);
+  color: #FCA5A5;
+}
+
+:global(body.dark) .tag:hover {
+  background-color: rgba(220, 38, 38, 0.3);
+}
+
+:global(body.dark) .removeButton {
+  color: #FCA5A5;
+}
+
+:global(body.dark) .removeButton:hover {
+  background-color: rgba(220, 38, 38, 0.4);
+}

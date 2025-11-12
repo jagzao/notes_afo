@@ -5,9 +5,11 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Note, NoteColor } from '@keep-plus-plus/types';
+import type { Note, NoteColor, Tag } from '@keep-plus-plus/types';
 import { Button } from '@keep-plus-plus/ui';
 import { ColorPicker } from '../ColorPicker';
+import { TagInput } from '../TagInput';
+import { useTags } from '../../context/TagsContext';
 import styles from './NoteEditor.module.css';
 
 interface NoteEditorProps {
@@ -36,19 +38,35 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
+  const [noteTags, setNoteTags] = useState<Tag[]>([]);
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const titleInputRef = useRef<HTMLInputElement>(null);
+
+  // Tags context
+  const { tags, createTag, assignTagToNote, removeTagFromNote, getTagsForNote } = useTags();
 
   // Initialize form with note data
   useEffect(() => {
     if (note) {
       setTitle(note.title);
       setDescription(note.description);
+
+      // Load tags for this note
+      const loadNoteTags = async () => {
+        try {
+          const tags = await getTagsForNote(note.id);
+          setNoteTags(tags);
+        } catch (error) {
+          console.error('Failed to load note tags:', error);
+        }
+      };
+      void loadNoteTags();
     } else {
       setTitle('');
       setDescription('');
+      setNoteTags([]);
     }
-  }, [note]);
+  }, [note, getTagsForNote]);
 
   // Focus title input when modal opens
   useEffect(() => {
@@ -155,6 +173,32 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
     }
   };
 
+  const handleTagAdd = async (tag: Tag) => {
+    if (!note) return;
+
+    try {
+      await assignTagToNote(note.id, tag.id);
+      setNoteTags((prev) => [...prev, tag]);
+    } catch (error) {
+      console.error('Failed to assign tag:', error);
+    }
+  };
+
+  const handleTagRemove = async (tagId: string) => {
+    if (!note) return;
+
+    try {
+      await removeTagFromNote(note.id, tagId);
+      setNoteTags((prev) => prev.filter((t) => t.id !== tagId));
+    } catch (error) {
+      console.error('Failed to remove tag:', error);
+    }
+  };
+
+  const handleTagCreate = async (name: string): Promise<Tag> => {
+    return await createTag(name);
+  };
+
   if (!note) return null;
 
   return (
@@ -216,6 +260,17 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Escribe tu nota..."
+                />
+              </div>
+
+              <div className={styles.inputGroup}>
+                <TagInput
+                  selectedTags={noteTags}
+                  availableTags={tags}
+                  onTagAdd={handleTagAdd}
+                  onTagRemove={handleTagRemove}
+                  onTagCreate={handleTagCreate}
+                  placeholder="Add tags..."
                 />
               </div>
             </div>

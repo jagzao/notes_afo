@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@keep-plus-plus/ui';
 import { NotesProvider } from './context/NotesContext';
+import { TagsProvider } from './context/TagsContext';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -10,7 +11,8 @@ function App() {
   return (
     <ThemeProvider defaultMode="light" storageKey="keep-plus-plus-theme">
       <NotesProvider>
-        <BrowserRouter>
+        <TagsProvider>
+          <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/" element={<Layout />}>
@@ -22,6 +24,7 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+        </TagsProvider>
       </NotesProvider>
     </ThemeProvider>
   );

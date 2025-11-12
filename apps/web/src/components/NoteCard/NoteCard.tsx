@@ -1,6 +1,9 @@
-import type { Note } from '@keep-plus-plus/types';
+import { useState, useEffect } from 'react';
+import type { Note, Tag } from '@keep-plus-plus/types';
 import { NOTE_COLORS } from '@keep-plus-plus/types';
 import { motion } from 'framer-motion';
+import { TagBadge } from '../TagBadge';
+import { useTags } from '../../context/TagsContext';
 import styles from './NoteCard.module.css';
 
 interface NoteCardProps {
@@ -50,6 +53,22 @@ export const NoteCard: React.FC<NoteCardProps> = ({
   index = 0,
 }) => {
   const backgroundColor = NOTE_COLORS[note.color] || NOTE_COLORS.default;
+  const [noteTags, setNoteTags] = useState<Tag[]>([]);
+  const { getTagsForNote } = useTags();
+
+  // Load tags for this note
+  useEffect(() => {
+    const loadTags = async () => {
+      try {
+        const tags = await getTagsForNote(note.id);
+        setNoteTags(tags);
+      } catch (error) {
+        console.error('Failed to load tags for note:', error);
+      }
+    };
+
+    void loadTags();
+  }, [note.id, getTagsForNote]);
 
   const handleClick = () => {
     if (onClick) {
@@ -107,6 +126,14 @@ export const NoteCard: React.FC<NoteCardProps> = ({
             ? `${note.description.substring(0, 200)}...`
             : note.description}
         </p>
+      )}
+
+      {noteTags.length > 0 && (
+        <div className={styles.tags}>
+          {noteTags.map((tag) => (
+            <TagBadge key={tag.id} tag={tag} />
+          ))}
+        </div>
       )}
 
       <div className={styles.footer}>
