@@ -129,31 +129,167 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ---
 
-## Próximos Hitos
+### Etapa 3 - Animaciones y Tema Negro/Rojo (2025-11-12)
 
-### Etapa 3 - Propiedades Tipadas (Semanas 3-4)
-- [ ] Modelo PropertyDef/PropertyVal
-- [ ] Tipos: texto, número, fecha, checkbox, select, multiselect, URL
-- [ ] Validación por tipo
-- [ ] UI de gestión de propiedades
-- [ ] Editor de propiedades por nota
+#### Changed
+- ✅ **Tema de colores actualizado** de naranja/azul a negro/rojo
+  - Color primario: Rojo (#DC2626)
+  - Modo oscuro: Negro profundo (#0A0A0A)
+  - Todos los botones, bordes, focus y selección actualizados
+  - Scrollbar personalizado con tema
 
-### Etapa 4 - Búsqueda y Filtros (Semana 4)
-- [ ] Full-text search mejorado
-- [ ] Filtros por tags
-- [ ] Filtros por propiedades
-- [ ] Orden avanzado
+#### Added
+- ✅ **Framer Motion** para animaciones
+  - Animaciones de entrada escalonadas (stagger) en NoteCard
+  - Efectos hover (lift 4px, scale 1.02, shadow mejorado)
+  - Feedback táctil (tap scale 0.98)
+  - Curvas de easing suaves para 60fps
+- ✅ **Animaciones en NoteList**
+  - Stagger a nivel de contenedor
+  - Delay de 50ms entre cada tarjeta
+  - Aplicado a secciones pinned y unpinned
 
-Ver [roadmap.md](./docs/roadmap.md) para el plan completo.
+#### Features
+- Animaciones fluidas y profesionales
+- Tema personalizado negro/rojo consistente
+- Dark mode optimizado con contraste alto
+
+---
+
+### Etapa 4 - Editor de Notas con ColorPicker (2025-11-12)
+
+#### Added
+- ✅ **NoteEditor Modal Component**
+  - Modal completo con animaciones Framer Motion
+  - Campos editables de título y descripción
+  - Auto-guardado con debounce de 500ms
+  - Atajos de teclado (Esc cerrar, Ctrl+Enter guardar)
+  - Indicador de estado (guardando/guardado)
+  - Toolbar con acciones (pin, archive, delete, color)
+  - Click fuera para cerrar
+  - Animaciones fade y scale suaves
+
+- ✅ **ColorPicker Component**
+  - 9 opciones de color (default, coral, peach, sand, mint, sage, fog, storm, dusk)
+  - Dropdown animado con Framer Motion
+  - Click-outside-to-close
+  - Integrado en toolbar del editor
+  - Indicador visual de color seleccionado
+
+- ✅ **Integración con HomePage**
+  - Click en NoteCard abre editor
+  - Todas las operaciones CRUD conectadas
+  - Actualizaciones optimistas en UI
+
+#### Features
+- Editor completo y funcional de notas
+- Cambio de color en tiempo real
+- UX pulida con auto-guardado
+
+---
+
+### Etapa 5 - Sistema de Tags (2025-11-12)
+
+#### Added
+- ✅ **TagsContext** para gestión de estado global
+  - CRUD de tags (create, delete)
+  - Asociaciones nota-tag (assign, remove, getForNote)
+  - Persistencia con IndexedDB
+  - Auto-inicialización
+
+- ✅ **TagBadge Component**
+  - Display de tags reutilizable
+  - Modo removable con botón X
+  - Modo clickable con callback
+  - Integración con tema rojo/negro
+  - Dark mode support
+
+- ✅ **TagInput Component** con autocompletado
+  - Filtrado en tiempo real de tags disponibles
+  - Navegación por teclado (Arrows, Enter, Esc, Backspace)
+  - Crear tags inline con sugerencia "Create..."
+  - Tags seleccionados como badges removables
+  - Click-outside-to-close
+  - Dropdown animado
+
+- ✅ **Integración en NoteEditor**
+  - TagInput en modal de edición
+  - Carga automática de tags
+  - Asignar/remover tags
+  - Crear tags directamente
+
+- ✅ **Display en NoteCard**
+  - Tags visibles en cada nota
+  - Auto-carga al renderizar
+  - Layout responsivo con flex-wrap
+
+#### Features
+- Sistema completo de tags funcional
+- Autocompletado inteligente
+- Persistencia automática en IndexedDB
+
+---
+
+### Etapa 6 - Búsqueda y Filtros (2025-11-12)
+
+#### Added
+- ✅ **Búsqueda en tiempo real** en HomePage
+  - Buscar por título de nota
+  - Buscar por descripción
+  - Filtrado live mientras se escribe
+  - Barra de búsqueda con focus states
+
+- ✅ **Filtros por tags**
+  - Muestra hasta 5 tags más usados
+  - Toggle múltiples tags (filtrado AND)
+  - Estado visual de filtro activo
+  - Chips clicables con tema
+
+- ✅ **Filtros por color**
+  - Filtrar por colores de nota (Coral, Peach, Sand, Mint, Salvia)
+  - Selección múltiple de colores
+  - Indicadores con emoji de colores
+
+- ✅ **Botón "Clear filters"**
+  - Visible solo cuando hay filtros activos
+  - Limpia todos los filtros a la vez
+
+- ✅ **Estado vacío mejorado**
+  - Mensaje diferente cuando no hay resultados por filtros
+  - vs. cuando no hay notas
+
+#### Features
+- Búsqueda instantánea sin latencia
+- Filtrado combinado (search + tags + colors)
+- UX intuitiva con feedback visual
 
 ---
 
 ## Estado del Proyecto
 
-**Actual**: 🟢 Etapa 2 completada (Core Notas - CRUD)
+**Actual**: 🟢 Etapa 6 completada (Búsqueda y Filtros)
 
-**Próximo**: Etapa 3 - Propiedades Tipadas
+**Próximo**: Etapa 7 - Propiedades Tipadas (Notion-style)
 
-**Progreso**: 2/12 etapas (16.7%)
+**Progreso**: 6/12 etapas (50%)
 
-**Meta**: Beta GA en Semana 10
+**Meta**: MVP funcional alcanzado
+
+## Build Statistics (Actual)
+
+- **@keep-plus-plus/types**: 11.63 KB
+- **@keep-plus-plus/ui**: 16.34 KB + themes
+- **@keep-plus-plus/storage**: 15.66 KB
+- **@keep-plus-plus/web**: 321.72 KB (gzipped: 104.90 KB)
+
+## Tecnologías Utilizadas
+
+- **Frontend**: React 18, TypeScript, Vite
+- **Animaciones**: Framer Motion 11.0.3
+- **Styling**: CSS Modules, tema personalizado negro/rojo
+- **Estado**: React Context API
+- **Storage**: IndexedDB (via idb library)
+- **Build**: Vite
+- **Package Manager**: pnpm (workspaces)
+
+Ver [roadmap.md](./docs/roadmap.md) para el plan completo.
