@@ -1,9 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { Button } from '@keep-plus-plus/ui';
 import { useNotes } from '../context/NotesContext';
 import { useTags } from '../context/TagsContext';
+import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { NoteList } from '../components/NoteList/NoteList';
 import { NoteEditor } from '../components/NoteEditor';
+import { KeyboardShortcutsHelp } from '../components/KeyboardShortcutsHelp';
 import type { Note, CreateNoteInput, NoteColor } from '@keep-plus-plus/types';
 import styles from './HomePage.module.css';
 
@@ -22,6 +24,47 @@ export const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<NoteColor[]>([]);
+  const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts([
+    {
+      key: 'n',
+      ctrlKey: true,
+      handler: () => {
+        void handleCreateNote();
+      },
+      description: 'Create new note',
+    },
+    {
+      key: 'k',
+      ctrlKey: true,
+      handler: () => {
+        searchInputRef.current?.focus();
+      },
+      description: 'Focus search',
+    },
+    {
+      key: '/',
+      ctrlKey: true,
+      handler: () => {
+        setShowShortcutsHelp(true);
+      },
+      description: 'Show keyboard shortcuts',
+    },
+    {
+      key: 'Escape',
+      handler: () => {
+        if (showShortcutsHelp) {
+          setShowShortcutsHelp(false);
+        } else if (editingNote) {
+          setEditingNote(null);
+        }
+      },
+      description: 'Close modal',
+    },
+  ]);
 
   // Filter notes based on search and filters
   const filteredNotes = useMemo(() => {
@@ -141,9 +184,10 @@ export const HomePage = () => {
         </div>
 
         <input
+          ref={searchInputRef}
           type="text"
           className={styles.searchBar}
-          placeholder="Search notes..."
+          placeholder="Search notes... (Ctrl+K)"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -202,6 +246,11 @@ export const HomePage = () => {
         onArchive={handleArchiveNote}
         onDelete={handleDeleteNote}
         onColorChange={handleColorChange}
+      />
+
+      <KeyboardShortcutsHelp
+        isOpen={showShortcutsHelp}
+        onClose={() => setShowShortcutsHelp(false)}
       />
     </div>
   );
