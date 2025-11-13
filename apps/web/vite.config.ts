@@ -39,7 +39,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/api\..*/i,
@@ -49,6 +49,42 @@ export default defineConfig({
               networkTimeoutSeconds: 10,
               cacheableResponse: {
                 statuses: [0, 200],
+              },
+            },
+          },
+          {
+            // Cache CSS files with CacheFirst
+            urlPattern: /\.css$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'css-cache',
+              expiration: {
+                maxEntries: 60,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+          {
+            // Cache JS files with CacheFirst
+            urlPattern: /\.js$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'js-cache',
+              expiration: {
+                maxEntries: 60,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+          {
+            // Cache images with CacheFirst
+            urlPattern: /\.(png|jpg|jpeg|svg|gif|webp)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'image-cache',
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 24 * 60 * 60, // 60 days
               },
             },
           },

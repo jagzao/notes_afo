@@ -8,6 +8,7 @@ import { PropertiesProvider } from './context/PropertiesContext';
 import { RemindersProvider } from './context/RemindersContext';
 import { Layout } from './components/Layout';
 import { LoadingSpinner } from './components/LoadingSpinner';
+import { OfflineIndicator } from './components/OfflineIndicator';
 
 // Lazy load pages for code splitting
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
@@ -42,6 +43,7 @@ function App() {
                 </Suspense>
               </BrowserRouter>
               <Toaster />
+              <OfflineIndicator />
             </RemindersProvider>
           </PropertiesProvider>
         </TagsProvider>
