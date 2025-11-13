@@ -6,6 +6,7 @@ const navItems = [
   { path: '/reminders', label: 'Reminders', icon: '🔔' },
   { path: '/archive', label: 'Archive', icon: '📦' },
   { path: '/trash', label: 'Trash', icon: '🗑️' },
+  { path: '/settings', label: 'Settings', icon: '⚙️' },
 ];
 
 export const Sidebar = () => {

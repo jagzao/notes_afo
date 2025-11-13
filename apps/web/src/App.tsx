@@ -9,6 +9,7 @@ import { HomePage } from './pages/HomePage';
 import { RemindersPage } from './pages/RemindersPage';
 import { ArchivePage } from './pages/ArchivePage';
 import { TrashPage } from './pages/TrashPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { LoginPage } from './pages/LoginPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { Layout } from './components/Layout';
@@ -29,6 +30,7 @@ function App() {
                     <Route path="reminders" element={<RemindersPage />} />
                     <Route path="archive" element={<ArchivePage />} />
                     <Route path="trash" element={<TrashPage />} />
+                    <Route path="settings" element={<SettingsPage />} />
                     <Route path="*" element={<NotFoundPage />} />
                   </Route>
                 </Routes>
