@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { Reminder, CreateReminderInput, UpdateReminderInput } from '@keep-plus-plus/types';
-import { initDatabase, remindersRepository } from '@keep-plus-plus/storage';
+import { initDatabase, remindersRepository, notesRepository } from '@keep-plus-plus/storage';
+import { useNotifications } from '../hooks/useNotifications';
+import { reminderNotificationService } from '../services/reminderNotifications';
 
 interface RemindersContextValue {
   reminders: Reminder[];
@@ -27,6 +29,8 @@ export const RemindersProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { showNotification, requestPermission } = useNotifications();
+
   // Mock user ID (in real app, this would come from auth)
   const userId = 'demo-user';
 
@@ -47,6 +51,45 @@ export const RemindersProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     void init();
   }, []);
+
+  // Initialize reminder notifications
+  useEffect(() => {
+    // Request notification permission
+    requestPermission();
+
+    // Helper to get note title
+    const getNoteTitleById = async (noteId: string): Promise<string | null> => {
+      try {
+        const note = await notesRepository.findById(noteId);
+        return note ? note.title || 'Untitled Note' : null;
+      } catch (error) {
+        console.error('Error getting note title:', error);
+        return null;
+      }
+    };
+
+    // Helper to get all pending reminders
+    const getPendingReminders = async (): Promise<Reminder[]> => {
+      try {
+        return await remindersRepository.findPending(userId);
+      } catch (error) {
+        console.error('Error getting pending reminders:', error);
+        return [];
+      }
+    };
+
+    // Start the notification service
+    reminderNotificationService.start(
+      getPendingReminders,
+      getNoteTitleById,
+      showNotification
+    );
+
+    // Cleanup on unmount
+    return () => {
+      reminderNotificationService.stop();
+    };
+  }, [userId, showNotification, requestPermission]);
 
   const loadReminders = useCallback(async () => {
     try {

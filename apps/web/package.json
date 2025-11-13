@@ -20,9 +20,11 @@
     "@keep-plus-plus/types": "workspace:*",
     "@keep-plus-plus/ui": "workspace:*",
     "framer-motion": "^11.0.3",
+    "i18next": "^25.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.6.0",
+    "react-i18next": "^16.3.3",
     "react-router-dom": "^6.22.0"
   },
   "devDependencies": {

@@ -9,6 +9,7 @@ import { RemindersProvider } from './context/RemindersContext';
 import { Layout } from './components/Layout';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { OfflineIndicator } from './components/OfflineIndicator';
+import './i18n/config'; // Initialize i18n
 
 // Lazy load pages for code splitting
 const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
@@ -18,6 +19,7 @@ const TrashPage = lazy(() => import('./pages/TrashPage').then(m => ({ default: m
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })));
 const LoginPage = lazy(() => import('./pages/LoginPage').then(m => ({ default: m.LoginPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then(m => ({ default: m.NotFoundPage })));
+const SharedNotePage = lazy(() => import('./pages/SharedNotePage').then(m => ({ default: m.SharedNotePage })));
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
                 <Suspense fallback={<LoadingSpinner />}>
                   <Routes>
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/share/:shareId" element={<SharedNotePage />} />
                     <Route path="/" element={<Layout />}>
                       <Route index element={<HomePage />} />
                       <Route path="notes" element={<HomePage />} />

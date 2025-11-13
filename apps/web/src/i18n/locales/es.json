@@ -1,0 +1,121 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "clear": "Limpiar"
+  },
+  "nav": {
+    "notes": "Notas",
+    "reminders": "Recordatorios",
+    "archive": "Archivo",
+    "trash": "Papelera",
+    "settings": "Configuración"
+  },
+  "home": {
+    "title": "Notas",
+    "newNote": "Nueva Nota",
+    "searchPlaceholder": "Buscar en títulos, descripciones y etiquetas... (Ctrl+K)",
+    "sortByUpdated": "Actualizadas Recientemente",
+    "sortByCreated": "Creadas Recientemente",
+    "noNotes": "No hay notas aún",
+    "noMatchingNotes": "No hay notas que coincidan con tus filtros",
+    "manageTags": "Administrar Etiquetas",
+    "clearFilters": "Limpiar Todos los Filtros"
+  },
+  "editor": {
+    "title": "Título",
+    "description": "Descripción",
+    "addTag": "Agregar etiqueta",
+    "addProperty": "Agregar propiedad",
+    "setReminder": "Establecer recordatorio",
+    "pin": "Fijar",
+    "unpin": "Desfijar",
+    "archive": "Archivar",
+    "unarchive": "Desarchivar",
+    "moveToTrash": "Mover a Papelera",
+    "changeColor": "Cambiar color",
+    "attachFiles": "Adjuntar archivos",
+    "share": "Compartir"
+  },
+  "reminders": {
+    "title": "Recordatorios",
+    "overdue": "Vencidos",
+    "today": "Hoy",
+    "thisWeek": "Esta Semana",
+    "upcoming": "Próximos",
+    "noReminders": "No hay recordatorios",
+    "complete": "Completar",
+    "deleteReminder": "Eliminar recordatorio"
+  },
+  "archive": {
+    "title": "Archivo",
+    "noNotes": "No hay notas archivadas",
+    "restore": "Restaurar"
+  },
+  "trash": {
+    "title": "Papelera",
+    "noNotes": "La papelera está vacía",
+    "restore": "Restaurar",
+    "deletePermanently": "Eliminar Permanentemente",
+    "emptyTrash": "Vaciar Papelera",
+    "confirmEmpty": "¿Estás seguro de que quieres eliminar permanentemente todas las notas en la papelera?"
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": "Idioma",
+    "theme": "Tema",
+    "export": "Exportar Datos",
+    "import": "Importar Datos",
+    "exportJSON": "Exportar Todos los Datos (JSON)",
+    "importJSON": "Importar desde JSON",
+    "storage": "Información de Almacenamiento",
+    "dangerZone": "Zona de Peligro",
+    "clearAllData": "Borrar Todos los Datos",
+    "about": "Acerca de",
+    "version": "Versión"
+  },
+  "tags": {
+    "manage": "Administrar Etiquetas",
+    "rename": "Renombrar",
+    "delete": "Eliminar",
+    "deleteUnused": "Eliminar Etiquetas Sin Usar",
+    "usageCount": "{{count}} nota",
+    "usageCount_plural": "{{count}} notas"
+  },
+  "notifications": {
+    "noteSaved": "Nota guardada",
+    "noteDeleted": "Nota movida a la papelera",
+    "noteRestored": "Nota restaurada",
+    "noteArchived": "Nota archivada",
+    "reminderSet": "Recordatorio establecido",
+    "exportSuccess": "Datos exportados exitosamente",
+    "importSuccess": "Importadas {{notes}} notas, {{tags}} etiquetas",
+    "backOnline": "¡De vuelta en línea!",
+    "offline": "Estás sin conexión - Los cambios se sincronizarán cuando te reconectes"
+  },
+  "attachments": {
+    "title": "Archivos Adjuntos",
+    "addFiles": "Agregar Archivos",
+    "addImages": "Agregar Imágenes",
+    "dropHere": "Suelta los archivos aquí",
+    "maxSize": "Tamaño máximo de archivo: {{size}}",
+    "remove": "Eliminar",
+    "download": "Descargar"
+  },
+  "share": {
+    "title": "Compartir Nota",
+    "publicLink": "Enlace Público",
+    "generateLink": "Generar Enlace Público",
+    "copyLink": "Copiar Enlace",
+    "revokeLink": "Revocar Enlace",
+    "linkCopied": "Enlace copiado al portapapeles",
+    "linkRevoked": "Enlace público revocado"
+  }
+}

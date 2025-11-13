@@ -1,0 +1,121 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "clear": "Clear"
+  },
+  "nav": {
+    "notes": "Notes",
+    "reminders": "Reminders",
+    "archive": "Archive",
+    "trash": "Trash",
+    "settings": "Settings"
+  },
+  "home": {
+    "title": "Notes",
+    "newNote": "New Note",
+    "searchPlaceholder": "Search in titles, descriptions, and tags... (Ctrl+K)",
+    "sortByUpdated": "Recently Updated",
+    "sortByCreated": "Recently Created",
+    "noNotes": "No notes yet",
+    "noMatchingNotes": "No notes match your filters",
+    "manageTags": "Manage Tags",
+    "clearFilters": "Clear All Filters"
+  },
+  "editor": {
+    "title": "Title",
+    "description": "Description",
+    "addTag": "Add tag",
+    "addProperty": "Add property",
+    "setReminder": "Set reminder",
+    "pin": "Pin",
+    "unpin": "Unpin",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
+    "moveToTrash": "Move to Trash",
+    "changeColor": "Change color",
+    "attachFiles": "Attach files",
+    "share": "Share"
+  },
+  "reminders": {
+    "title": "Reminders",
+    "overdue": "Overdue",
+    "today": "Today",
+    "thisWeek": "This Week",
+    "upcoming": "Upcoming",
+    "noReminders": "No reminders",
+    "complete": "Complete",
+    "deleteReminder": "Delete reminder"
+  },
+  "archive": {
+    "title": "Archive",
+    "noNotes": "No archived notes",
+    "restore": "Restore"
+  },
+  "trash": {
+    "title": "Trash",
+    "noNotes": "Trash is empty",
+    "restore": "Restore",
+    "deletePermanently": "Delete Permanently",
+    "emptyTrash": "Empty Trash",
+    "confirmEmpty": "Are you sure you want to permanently delete all notes in trash?"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "export": "Export Data",
+    "import": "Import Data",
+    "exportJSON": "Export All Data (JSON)",
+    "importJSON": "Import from JSON",
+    "storage": "Storage Information",
+    "dangerZone": "Danger Zone",
+    "clearAllData": "Clear All Data",
+    "about": "About",
+    "version": "Version"
+  },
+  "tags": {
+    "manage": "Manage Tags",
+    "rename": "Rename",
+    "delete": "Delete",
+    "deleteUnused": "Delete Unused Tags",
+    "usageCount": "{{count}} note",
+    "usageCount_plural": "{{count}} notes"
+  },
+  "notifications": {
+    "noteSaved": "Note saved",
+    "noteDeleted": "Note moved to trash",
+    "noteRestored": "Note restored",
+    "noteArchived": "Note archived",
+    "reminderSet": "Reminder set",
+    "exportSuccess": "Data exported successfully",
+    "importSuccess": "Imported {{notes}} notes, {{tags}} tags",
+    "backOnline": "Back online!",
+    "offline": "You're offline - Changes will sync when you reconnect"
+  },
+  "attachments": {
+    "title": "Attachments",
+    "addFiles": "Add Files",
+    "addImages": "Add Images",
+    "dropHere": "Drop files here",
+    "maxSize": "Max file size: {{size}}",
+    "remove": "Remove",
+    "download": "Download"
+  },
+  "share": {
+    "title": "Share Note",
+    "publicLink": "Public Link",
+    "generateLink": "Generate Public Link",
+    "copyLink": "Copy Link",
+    "revokeLink": "Revoke Link",
+    "linkCopied": "Link copied to clipboard",
+    "linkRevoked": "Public link revoked"
+  }
+}
