@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import type { Note, Tag, PropertyDefinition, PropertyValue, Reminder } from '@keep-plus-plus/types';
 import { NOTE_COLORS } from '@keep-plus-plus/types';
 import { motion } from 'framer-motion';
@@ -46,7 +46,7 @@ const cardVariants = {
   },
 };
 
-export const NoteCard: React.FC<NoteCardProps> = ({
+const NoteCardComponent: React.FC<NoteCardProps> = ({
   note,
   onClick,
   onPin,
@@ -54,7 +54,7 @@ export const NoteCard: React.FC<NoteCardProps> = ({
   onDelete,
   index = 0,
 }) => {
-  const backgroundColor = NOTE_COLORS[note.color] || NOTE_COLORS.default;
+  const backgroundColor = useMemo(() => NOTE_COLORS[note.color] || NOTE_COLORS.default, [note.color]);
   const [noteTags, setNoteTags] = useState<Tag[]>([]);
   const [properties, setProperties] = useState<Array<{ definition: PropertyDefinition; value: PropertyValue | null }>>([]);
   const [reminder, setReminder] = useState<Reminder | null>(null);
@@ -105,32 +105,32 @@ export const NoteCard: React.FC<NoteCardProps> = ({
     void loadReminder();
   }, [note.id, getRemindersForNote]);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (onClick) {
       onClick(note);
     }
-  };
+  }, [onClick, note]);
 
-  const handlePin = (e: React.MouseEvent) => {
+  const handlePin = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     if (onPin) {
       onPin(note.id);
     }
-  };
+  }, [onPin, note.id]);
 
-  const handleArchive = (e: React.MouseEvent) => {
+  const handleArchive = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     if (onArchive) {
       onArchive(note.id);
     }
-  };
+  }, [onArchive, note.id]);
 
-  const handleDelete = (e: React.MouseEvent) => {
+  const handleDelete = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     if (onDelete) {
       onDelete(note.id);
     }
-  };
+  }, [onDelete, note.id]);
 
   return (
     <motion.div
@@ -327,3 +327,6 @@ function formatReminderDate(date: Date): string {
   // Future dates
   return fireAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 }
+
+// Memoize the component to prevent unnecessary re-renders
+export const NoteCard = memo(NoteCardComponent);

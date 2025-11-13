@@ -3,6 +3,7 @@
  * Displays a single tag with optional remove functionality
  */
 
+import { memo, useCallback } from 'react';
 import type { Tag } from '@keep-plus-plus/types';
 import styles from './TagBadge.module.css';
 
@@ -13,24 +14,24 @@ interface TagBadgeProps {
   onRemove?: () => void;
 }
 
-export const TagBadge: React.FC<TagBadgeProps> = ({
+const TagBadgeComponent: React.FC<TagBadgeProps> = ({
   tag,
   removable = false,
   onClick,
   onRemove,
 }) => {
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (onClick) {
       onClick();
     }
-  };
+  }, [onClick]);
 
-  const handleRemove = (e: React.MouseEvent) => {
+  const handleRemove = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     if (onRemove) {
       onRemove();
     }
-  };
+  }, [onRemove]);
 
   return (
     <span
@@ -65,3 +66,6 @@ export const TagBadge: React.FC<TagBadgeProps> = ({
     </span>
   );
 };
+
+// Memoize to prevent unnecessary re-renders when tag data hasn't changed
+export const TagBadge = memo(TagBadgeComponent);
