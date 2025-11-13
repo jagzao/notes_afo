@@ -6,6 +6,7 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { NoteList } from '../components/NoteList/NoteList';
 import { NoteEditor } from '../components/NoteEditor';
 import { KeyboardShortcutsHelp } from '../components/KeyboardShortcutsHelp';
+import { TagsManager } from '../components/TagsManager';
 import type { Note, CreateNoteInput, NoteColor } from '@keep-plus-plus/types';
 import styles from './HomePage.module.css';
 
@@ -25,6 +26,7 @@ export const HomePage = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<NoteColor[]>([]);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
+  const [showTagsManager, setShowTagsManager] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Keyboard shortcuts
@@ -223,6 +225,12 @@ export const HomePage = () => {
                 Clear filters
               </button>
             )}
+
+            {tags.length > 0 && (
+              <button className={styles.manageTagsButton} onClick={() => setShowTagsManager(true)}>
+                ⚙️ Manage Tags
+              </button>
+            )}
           </div>
         )}
       </div>
@@ -252,6 +260,8 @@ export const HomePage = () => {
         isOpen={showShortcutsHelp}
         onClose={() => setShowShortcutsHelp(false)}
       />
+
+      <TagsManager isOpen={showTagsManager} onClose={() => setShowTagsManager(false)} />
     </div>
   );
 };

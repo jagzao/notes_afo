@@ -1,6 +1,7 @@
 import type { Note } from '@keep-plus-plus/types';
 import { motion } from 'framer-motion';
 import { NoteCard } from '../NoteCard/NoteCard';
+import { NoteGridSkeleton } from '../NoteCardSkeleton';
 import styles from './NoteList.module.css';
 
 interface NoteListProps {
@@ -34,9 +35,10 @@ export const NoteList: React.FC<NoteListProps> = ({
 }) => {
   if (loading) {
     return (
-      <div className={styles.loading}>
-        <div className={styles.spinner} />
-        <p>Loading notes...</p>
+      <div className={styles.container}>
+        <div className={styles.grid}>
+          <NoteGridSkeleton count={6} />
+        </div>
       </div>
     );
   }

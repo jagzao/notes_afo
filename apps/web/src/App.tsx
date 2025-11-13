@@ -6,6 +6,7 @@ import { TagsProvider } from './context/TagsContext';
 import { PropertiesProvider } from './context/PropertiesContext';
 import { RemindersProvider } from './context/RemindersContext';
 import { HomePage } from './pages/HomePage';
+import { RemindersPage } from './pages/RemindersPage';
 import { ArchivePage } from './pages/ArchivePage';
 import { TrashPage } from './pages/TrashPage';
 import { LoginPage } from './pages/LoginPage';
@@ -25,6 +26,7 @@ function App() {
                   <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="notes" element={<HomePage />} />
+                    <Route path="reminders" element={<RemindersPage />} />
                     <Route path="archive" element={<ArchivePage />} />
                     <Route path="trash" element={<TrashPage />} />
                     <Route path="*" element={<NotFoundPage />} />

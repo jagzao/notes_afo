@@ -1,0 +1,268 @@
+.page {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0A0A0A;
+  margin: 0 0 0.5rem 0;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #737373;
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0A0A0A;
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e5e5;
+}
+
+.remindersList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.reminderCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+.reminderCard:hover {
+  border-color: #DC2626;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+}
+
+.reminderCard.overdue {
+  border-color: #DC2626;
+  background-color: #FEF2F2;
+}
+
+.reminderInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.noteTitle {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #0A0A0A;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.noteTitle:hover {
+  color: #DC2626;
+  text-decoration: underline;
+}
+
+.reminderTime {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #737373;
+}
+
+.reminderTime svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.overdue .reminderTime {
+  color: #DC2626;
+  font-weight: 500;
+}
+
+.reminderActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  background: none;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.375rem;
+  color: #737373;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.actionButton:hover {
+  background-color: #f5f5f5;
+  border-color: #DC2626;
+  color: #DC2626;
+}
+
+.actionButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Empty state */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  min-height: 400px;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.4;
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0A0A0A;
+  margin: 0 0 0.5rem 0;
+}
+
+.emptyText {
+  font-size: 1rem;
+  color: #737373;
+  max-width: 500px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Dark mode */
+:global(.dark) .title {
+  color: #FAFAFA;
+}
+
+:global(.dark) .subtitle {
+  color: #9AA0A6;
+}
+
+:global(.dark) .sectionTitle {
+  color: #FAFAFA;
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .reminderCard {
+  background-color: #1A1A1A;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+:global(.dark) .reminderCard:hover {
+  border-color: #EF4444;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+}
+
+:global(.dark) .reminderCard.overdue {
+  background-color: rgba(220, 38, 38, 0.1);
+  border-color: #DC2626;
+}
+
+:global(.dark) .noteTitle {
+  color: #FAFAFA;
+}
+
+:global(.dark) .noteTitle:hover {
+  color: #EF4444;
+}
+
+:global(.dark) .reminderTime {
+  color: #9AA0A6;
+}
+
+:global(.dark) .overdue .reminderTime {
+  color: #EF4444;
+}
+
+:global(.dark) .actionButton {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #9AA0A6;
+}
+
+:global(.dark) .actionButton:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: #EF4444;
+  color: #EF4444;
+}
+
+:global(.dark) .emptyTitle {
+  color: #FAFAFA;
+}
+
+:global(.dark) .emptyText {
+  color: #9AA0A6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .reminderCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reminderActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

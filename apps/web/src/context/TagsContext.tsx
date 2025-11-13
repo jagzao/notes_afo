@@ -8,6 +8,7 @@ interface TagsContextValue {
   error: string | null;
   // CRUD operations
   createTag: (name: string) => Promise<Tag>;
+  updateTag: (id: string, name: string) => Promise<Tag>;
   deleteTag: (id: string) => Promise<void>;
   // Tag-Note associations
   assignTagToNote: (noteId: string, tagId: string) => Promise<void>;
@@ -67,6 +68,17 @@ export const TagsProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [userId]);
 
+  const updateTag = useCallback(async (id: string, name: string): Promise<Tag> => {
+    try {
+      const updatedTag = await tagsRepository.update(id, { name });
+      setTags((prev) => prev.map((t) => (t.id === id ? updatedTag : t)));
+      return updatedTag;
+    } catch (err) {
+      console.error('Failed to update tag:', err);
+      throw err;
+    }
+  }, []);
+
   const deleteTag = useCallback(async (id: string): Promise<void> => {
     try {
       await tagsRepository.delete(id);
@@ -113,6 +125,7 @@ export const TagsProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     error,
     createTag,
+    updateTag,
     deleteTag,
     assignTagToNote,
     removeTagFromNote,

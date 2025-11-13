@@ -3,6 +3,7 @@ import styles from './Sidebar.module.css';
 
 const navItems = [
   { path: '/', label: 'Notes', icon: '📝' },
+  { path: '/reminders', label: 'Reminders', icon: '🔔' },
   { path: '/archive', label: 'Archive', icon: '📦' },
   { path: '/trash', label: 'Trash', icon: '🗑️' },
 ];
