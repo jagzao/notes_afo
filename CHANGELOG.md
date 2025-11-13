@@ -326,22 +326,86 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ---
 
+### Etapa 8 - Sistema de Recordatorios (2025-11-13)
+
+#### Added
+- ✅ **RemindersRepository** en @keep-plus-plus/storage
+  - CRUD completo de reminders
+  - findPending para obtener recordatorios pendientes
+  - findDue para obtener recordatorios vencidos
+  - complete/uncomplete para marcar como completado
+  - findByNote para obtener todos los recordatorios de una nota
+  - deleteByNote para eliminar al borrar notas
+
+- ✅ **RemindersContext** para gestión de estado
+  - createReminder, updateReminder, deleteReminder
+  - completeReminder, uncompleteReminder
+  - getRemindersForNote, getPendingReminders, getDueReminders
+  - Auto-inicialización con IndexedDB
+
+- ✅ **ReminderPicker Component**
+  - Quick options (Later today, Tomorrow, Next week)
+  - Custom date & time picker
+  - Dropdown animado con Framer Motion
+  - Click-outside-to-close
+  - Update o create según recordatorio existente
+  - Clear reminder button
+  - Visual feedback con icono de campana
+
+- ✅ **Integración en NoteEditor**
+  - ReminderPicker en toolbar
+  - Carga automática de recordatorio de la nota
+  - Handlers para set/clear reminder
+  - Estado sincronizado con DB
+
+- ✅ **Display en NoteCard**
+  - Muestra recordatorio pendiente con icono
+  - Formato inteligente de fecha:
+    * "in X min" para < 1 hora
+    * "in Xh" para < 24 horas
+    * "Today at HH:MM" para hoy
+    * "Tomorrow at HH:MM" para mañana
+    * "Day at HH:MM" para esta semana
+    * "Mon DD at HH:MM" para fechas futuras
+    * "Overdue" para recordatorios pasados
+  - Estilo destacado con borde rojo
+  - Solo muestra recordatorios no completados
+
+- ✅ **Sistema de Notificaciones Web**
+  - Hook useReminderNotifications
+  - Verificación cada 60 segundos de recordatorios vencidos
+  - Web Notifications API integration
+  - Request permission en primera carga
+  - Auto-complete al mostrar notificación
+  - Prevención de notificaciones duplicadas
+  - Focus window al hacer click en notificación
+
+#### Features
+- Sistema completo de recordatorios funcional
+- Quick options para fechas comunes
+- Selector de fecha/hora personalizado
+- Notificaciones del navegador
+- Formato inteligente de fechas
+- Integración completa con notas
+
+---
+
 ## Estado del Proyecto
 
-**Actual**: 🟢 Etapa 7 completada (Propiedades Tipadas)
+**Actual**: 🟢 Etapa 8 completada (Sistema de Recordatorios)
 
-**Próximo**: Etapa 8 - Sistema de Recordatorios
+**Próximo**: Etapa 9 - Offline-first & Sync
 
-**Progreso**: 7/12 etapas (58.3%)
+**Progreso**: 8/12 etapas (66.7%)
 
-**Meta**: MVP funcional completado - Sistema de propiedades agregado
+**Meta**: MVP funcional avanzado - Sistema de recordatorios agregado
 
 ## Build Statistics (Actual)
 
 - **@keep-plus-plus/types**: 11.63 KB
 - **@keep-plus-plus/ui**: 16.34 KB + themes
-- **@keep-plus-plus/storage**: 23.68 KB (increased due to properties repository)
-- **@keep-plus-plus/web**: 342.13 KB (gzipped: 109.94 KB)
+- **@keep-plus-plus/storage**: 28.22 KB (increased due to reminders repository)
+- **@keep-plus-plus/web**: 354.45 KB (gzipped: 112.77 KB)
 
 ## Tecnologías Utilizadas
 

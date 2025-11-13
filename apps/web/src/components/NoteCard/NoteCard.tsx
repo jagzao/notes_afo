@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import type { Note, Tag, PropertyDefinition, PropertyValue } from '@keep-plus-plus/types';
+import type { Note, Tag, PropertyDefinition, PropertyValue, Reminder } from '@keep-plus-plus/types';
 import { NOTE_COLORS } from '@keep-plus-plus/types';
 import { motion } from 'framer-motion';
 import { TagBadge } from '../TagBadge';
 import { useTags } from '../../context/TagsContext';
 import { useProperties } from '../../context/PropertiesContext';
+import { useReminders } from '../../context/RemindersContext';
 import styles from './NoteCard.module.css';
 
 interface NoteCardProps {
@@ -56,8 +57,10 @@ export const NoteCard: React.FC<NoteCardProps> = ({
   const backgroundColor = NOTE_COLORS[note.color] || NOTE_COLORS.default;
   const [noteTags, setNoteTags] = useState<Tag[]>([]);
   const [properties, setProperties] = useState<Array<{ definition: PropertyDefinition; value: PropertyValue | null }>>([]);
+  const [reminder, setReminder] = useState<Reminder | null>(null);
   const { getTagsForNote } = useTags();
   const { getPropertiesWithValues } = useProperties();
+  const { getRemindersForNote } = useReminders();
 
   // Load tags for this note
   useEffect(() => {
@@ -86,6 +89,21 @@ export const NoteCard: React.FC<NoteCardProps> = ({
 
     void loadProperties();
   }, [note.id, getPropertiesWithValues]);
+
+  // Load reminder for this note
+  useEffect(() => {
+    const loadReminder = async () => {
+      try {
+        const reminders = await getRemindersForNote(note.id);
+        const pendingReminder = reminders.find((r) => !r.completed);
+        setReminder(pendingReminder || null);
+      } catch (error) {
+        console.error('Failed to load reminder for note:', error);
+      }
+    };
+
+    void loadReminder();
+  }, [note.id, getRemindersForNote]);
 
   const handleClick = () => {
     if (onClick) {
@@ -169,6 +187,26 @@ export const NoteCard: React.FC<NoteCardProps> = ({
         </div>
       )}
 
+      {reminder && !reminder.completed && (
+        <div className={styles.reminder}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            className={styles.reminderIcon}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+            />
+          </svg>
+          <span className={styles.reminderText}>{formatReminderDate(reminder.fireAt)}</span>
+        </div>
+      )}
+
       <div className={styles.footer}>
         <span className={styles.date}>{formatDate(note.updatedAt)}</span>
 
@@ -242,4 +280,50 @@ function formatPropertyValue(definition: PropertyDefinition, value: PropertyValu
     default:
       return '—';
   }
+}
+
+function formatReminderDate(date: Date): string {
+  const fireAt = new Date(date);
+  const now = new Date();
+  const diffMs = fireAt.getTime() - now.getTime();
+  const diffMins = Math.floor(diffMs / (1000 * 60));
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  // Past reminders
+  if (diffMs < 0) {
+    return 'Overdue';
+  }
+
+  // Less than 1 hour
+  if (diffMins < 60) {
+    return `in ${diffMins} min`;
+  }
+
+  // Less than 24 hours
+  if (diffHours < 24) {
+    return `in ${diffHours}h`;
+  }
+
+  // Today
+  const isToday = fireAt.toDateString() === now.toDateString();
+  if (isToday) {
+    return `Today at ${fireAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+  }
+
+  // Tomorrow
+  const tomorrow = new Date(now);
+  tomorrow.setDate(now.getDate() + 1);
+  const isTomorrow = fireAt.toDateString() === tomorrow.toDateString();
+  if (isTomorrow) {
+    return `Tomorrow at ${fireAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+  }
+
+  // This week (within 7 days)
+  if (diffDays < 7) {
+    return fireAt.toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' });
+  }
+
+  // Future dates
+  return fireAt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 }

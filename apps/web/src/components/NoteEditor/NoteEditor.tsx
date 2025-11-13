@@ -5,14 +5,16 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import type { Note, NoteColor, Tag, PropertyDefinition, PropertyValue, CreatePropertyInput } from '@keep-plus-plus/types';
+import type { Note, NoteColor, Tag, PropertyDefinition, PropertyValue, CreatePropertyInput, Reminder } from '@keep-plus-plus/types';
 import { Button } from '@keep-plus-plus/ui';
 import { ColorPicker } from '../ColorPicker';
 import { TagInput } from '../TagInput';
 import { PropertyField } from '../PropertyField/PropertyField';
 import { PropertyAddModal } from '../PropertyAddModal/PropertyAddModal';
+import { ReminderPicker } from '../ReminderPicker/ReminderPicker';
 import { useTags } from '../../context/TagsContext';
 import { useProperties } from '../../context/PropertiesContext';
+import { useReminders } from '../../context/RemindersContext';
 import styles from './NoteEditor.module.css';
 
 interface NoteEditorProps {
@@ -43,6 +45,7 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle');
   const [noteTags, setNoteTags] = useState<Tag[]>([]);
   const [properties, setProperties] = useState<Array<{ definition: PropertyDefinition; value: PropertyValue | null }>>([]);
+  const [reminder, setReminder] = useState<Reminder | null>(null);
   const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const titleInputRef = useRef<HTMLInputElement>(null);
@@ -52,6 +55,9 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
 
   // Properties context
   const { getPropertiesWithValues, createProperty, deleteProperty } = useProperties();
+
+  // Reminders context
+  const { createReminder, updateReminder, deleteReminder, getRemindersForNote } = useReminders();
 
   // Initialize form with note data
   useEffect(() => {
@@ -80,13 +86,27 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
         }
       };
       void loadProperties();
+
+      // Load reminder for this note
+      const loadReminder = async () => {
+        try {
+          const reminders = await getRemindersForNote(note.id);
+          // Get the first pending reminder
+          const pendingReminder = reminders.find((r) => !r.completed);
+          setReminder(pendingReminder || null);
+        } catch (error) {
+          console.error('Failed to load reminder:', error);
+        }
+      };
+      void loadReminder();
     } else {
       setTitle('');
       setDescription('');
       setNoteTags([]);
       setProperties([]);
+      setReminder(null);
     }
-  }, [note, getTagsForNote, getPropertiesWithValues]);
+  }, [note, getTagsForNote, getPropertiesWithValues, getRemindersForNote]);
 
   // Focus title input when modal opens
   useEffect(() => {
@@ -239,6 +259,37 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
       setProperties((prev) => prev.filter((p) => p.definition.id !== propertyId));
     } catch (error) {
       console.error('Failed to delete property:', error);
+    }
+  };
+
+  const handleReminderSet = async (date: Date) => {
+    if (!note) return;
+
+    try {
+      if (reminder) {
+        // Update existing reminder
+        const updated = await updateReminder(reminder.id, { fireAt: date });
+        setReminder(updated);
+      } else {
+        // Create new reminder
+        const newReminder = await createReminder({ noteId: note.id, fireAt: date });
+        setReminder(newReminder);
+      }
+    } catch (error) {
+      console.error('Failed to set reminder:', error);
+      throw error;
+    }
+  };
+
+  const handleReminderClear = async () => {
+    if (!note || !reminder) return;
+
+    try {
+      await deleteReminder(reminder.id);
+      setReminder(null);
+    } catch (error) {
+      console.error('Failed to clear reminder:', error);
+      throw error;
     }
   };
 
@@ -413,6 +464,13 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
                 <ColorPicker
                   selectedColor={note.color}
                   onColorChange={handleColorChange}
+                />
+
+                <ReminderPicker
+                  noteId={note.id}
+                  currentReminder={reminder}
+                  onSet={handleReminderSet}
+                  onClear={handleReminderClear}
                 />
 
                 <button
