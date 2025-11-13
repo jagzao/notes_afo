@@ -11,6 +11,7 @@ import { ColorPicker } from '../ColorPicker';
 import { TagInput } from '../TagInput';
 import { PropertyField } from '../PropertyField/PropertyField';
 import { PropertyAddModal } from '../PropertyAddModal/PropertyAddModal';
+import { PropertyEditModal } from '../PropertyEditModal';
 import { ReminderPicker } from '../ReminderPicker/ReminderPicker';
 import { useTags } from '../../context/TagsContext';
 import { useProperties } from '../../context/PropertiesContext';
@@ -47,6 +48,7 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
   const [properties, setProperties] = useState<Array<{ definition: PropertyDefinition; value: PropertyValue | null }>>([]);
   const [reminder, setReminder] = useState<Reminder | null>(null);
   const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
+  const [editingProperty, setEditingProperty] = useState<PropertyDefinition | null>(null);
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const titleInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,7 +56,7 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
   const { tags, createTag, assignTagToNote, removeTagFromNote, getTagsForNote } = useTags();
 
   // Properties context
-  const { getPropertiesWithValues, createProperty, deleteProperty } = useProperties();
+  const { getPropertiesWithValues, createProperty, updateProperty, deleteProperty } = useProperties();
 
   // Reminders context
   const { createReminder, updateReminder, deleteReminder, getRemindersForNote } = useReminders();
@@ -251,6 +253,36 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
     }
   };
 
+  const handlePropertyEdit = (property: PropertyDefinition) => {
+    setEditingProperty(property);
+  };
+
+  const handlePropertyUpdate = async (
+    id: string,
+    updates: {
+      key?: string;
+      label?: string;
+      type?: string;
+      options?: string[];
+      required?: boolean;
+    }
+  ) => {
+    if (!note) return;
+
+    try {
+      const updatedProperty = await updateProperty(id, updates);
+      setProperties((prev) =>
+        prev.map((p) =>
+          p.definition.id === id ? { ...p, definition: updatedProperty } : p
+        )
+      );
+      setEditingProperty(null);
+    } catch (error) {
+      console.error('Failed to update property:', error);
+      throw error;
+    }
+  };
+
   const handlePropertyDelete = async (propertyId: string) => {
     if (!note) return;
 
@@ -404,6 +436,7 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
                         noteId={note.id}
                         definition={definition}
                         value={value}
+                        onEdit={handlePropertyEdit}
                         onDelete={handlePropertyDelete}
                       />
                     ))}
@@ -515,6 +548,15 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
             isOpen={isAddPropertyModalOpen}
             onClose={() => setIsAddPropertyModalOpen(false)}
             onAdd={handlePropertyAdd}
+          />
+
+          {/* Property Edit Modal */}
+          <PropertyEditModal
+            isOpen={!!editingProperty}
+            property={editingProperty}
+            onClose={() => setEditingProperty(null)}
+            onSave={handlePropertyUpdate}
+            onDelete={handlePropertyDelete}
           />
         </motion.div>
       )}

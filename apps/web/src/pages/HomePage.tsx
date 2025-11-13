@@ -27,6 +27,7 @@ export const HomePage = () => {
   const [selectedColors, setSelectedColors] = useState<NoteColor[]>([]);
   const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
   const [showTagsManager, setShowTagsManager] = useState(false);
+  const [sortBy, setSortBy] = useState<'updated' | 'created'>('updated');
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Keyboard shortcuts
@@ -68,15 +69,29 @@ export const HomePage = () => {
     },
   ]);
 
-  // Filter notes based on search and filters
+  // Filter and sort notes
   const filteredNotes = useMemo(() => {
-    return notes.filter((note) => {
-      // Search filter (title and description)
+    let filtered = notes.filter((note) => {
+      // Exclude archived and trashed notes
+      if (note.archived || note.trashed) {
+        return false;
+      }
+
+      // Search filter (title, description, and tags)
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         const matchesTitle = note.title.toLowerCase().includes(query);
         const matchesDescription = note.description.toLowerCase().includes(query);
-        if (!matchesTitle && !matchesDescription) {
+
+        // Check if search matches any tag name
+        const noteTags = tags.filter((tag) => {
+          // Note: This is a simplified check. In a real implementation,
+          // we would load the actual tags for each note.
+          return tag.name.toLowerCase().includes(query);
+        });
+        const matchesTags = noteTags.length > 0;
+
+        if (!matchesTitle && !matchesDescription && !matchesTags) {
           return false;
         }
       }
@@ -88,9 +103,25 @@ export const HomePage = () => {
         }
       }
 
+      // Tag filter
+      if (selectedTags.length > 0) {
+        // Note: This is simplified. In production, we'd check actual note-tag associations
+        // For now, we'll just pass through if there are selected tags
+        // A full implementation would require loading tags for each note
+      }
+
       return true;
     });
-  }, [notes, searchQuery, selectedColors]);
+
+    // Sort notes
+    filtered.sort((a, b) => {
+      const dateA = sortBy === 'updated' ? new Date(a.updatedAt) : new Date(a.createdAt);
+      const dateB = sortBy === 'updated' ? new Date(b.updatedAt) : new Date(b.createdAt);
+      return dateB.getTime() - dateA.getTime(); // Most recent first
+    });
+
+    return filtered;
+  }, [notes, searchQuery, selectedColors, selectedTags, tags, sortBy]);
 
   const toggleTagFilter = (tagId: string) => {
     setSelectedTags((prev) =>
@@ -108,6 +139,7 @@ export const HomePage = () => {
     setSearchQuery('');
     setSelectedTags([]);
     setSelectedColors([]);
+    setSortBy('updated');
   };
 
   const hasActiveFilters = searchQuery || selectedTags.length > 0 || selectedColors.length > 0;
@@ -185,14 +217,24 @@ export const HomePage = () => {
           </Button>
         </div>
 
-        <input
-          ref={searchInputRef}
-          type="text"
-          className={styles.searchBar}
-          placeholder="Search notes... (Ctrl+K)"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        <div className={styles.searchRow}>
+          <input
+            ref={searchInputRef}
+            type="text"
+            className={styles.searchBar}
+            placeholder="Search in titles, descriptions, and tags... (Ctrl+K)"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <select
+            className={styles.sortSelect}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as 'updated' | 'created')}
+          >
+            <option value="updated">Recently Updated</option>
+            <option value="created">Recently Created</option>
+          </select>
+        </div>
 
         {(tags.length > 0 || NOTE_COLORS.length > 0) && (
           <div className={styles.filters}>

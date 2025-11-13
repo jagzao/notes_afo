@@ -31,6 +31,12 @@
   font-size: 0.875rem;
 }
 
+.propertyActions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.editButton,
 .deleteButton {
   padding: 0.25rem;
   background: transparent;
