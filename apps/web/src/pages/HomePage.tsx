@@ -7,6 +7,7 @@ import { NoteList } from '../components/NoteList/NoteList';
 import { NoteEditor } from '../components/NoteEditor';
 import { KeyboardShortcutsHelp } from '../components/KeyboardShortcutsHelp';
 import { TagsManager } from '../components/TagsManager';
+import { PullToRefresh } from '../components/PullToRefresh';
 import type { Note, CreateNoteInput, NoteColor } from '@keep-plus-plus/types';
 import styles from './HomePage.module.css';
 
@@ -19,7 +20,7 @@ const NOTE_COLORS: Array<{ value: NoteColor; label: string }> = [
 ];
 
 export const HomePage = () => {
-  const { notes, loading, createNote, updateNote, pinNote, archiveNote, moveToTrash } = useNotes();
+  const { notes, loading, createNote, updateNote, pinNote, archiveNote, moveToTrash, refreshNotes } = useNotes();
   const { tags } = useTags();
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -208,8 +209,9 @@ export const HomePage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
+    <PullToRefresh onRefresh={refreshNotes}>
+      <div className={styles.container}>
+        <div className={styles.header}>
         <div className={styles.headerTop}>
           <h2 className={styles.title}>Notes</h2>
           <Button variant="primary" size="md" onClick={handleCreateNote}>
@@ -304,6 +306,7 @@ export const HomePage = () => {
       />
 
       <TagsManager isOpen={showTagsManager} onClose={() => setShowTagsManager(false)} />
-    </div>
+      </div>
+    </PullToRefresh>
   );
 };
