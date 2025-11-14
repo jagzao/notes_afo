@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNotes } from '../context/NotesContext';
 import { useToast } from '../hooks/useToast';
 import { LoadingSpinner } from '../components/LoadingSpinner';
@@ -6,6 +7,7 @@ import { exportToJSON, importFromJSON, downloadFile } from '../utils/importExpor
 import styles from './SettingsPage.module.css';
 
 export const SettingsPage = () => {
+  const { i18n } = useTranslation();
   const { refreshNotes } = useNotes();
   const toast = useToast();
   const [exporting, setExporting] = useState(false);
@@ -15,6 +17,12 @@ export const SettingsPage = () => {
     imported: { notes: number; tags: number; properties: number; reminders: number };
     errors: string[];
   } | null>(null);
+
+  const handleLanguageChange = (lang: string) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem('keep-plus-plus-language', lang);
+    toast.success(lang === 'es' ? 'Idioma cambiado a Español' : 'Language changed to English');
+  };
 
   const handleExportJSON = async () => {
     setExporting(true);
@@ -106,6 +114,31 @@ export const SettingsPage = () => {
       </div>
 
       <div className={styles.content}>
+        {/* Language Section */}
+        <section className={styles.section}>
+          <h2 className={styles.sectionTitle}>Language / Idioma</h2>
+          <p className={styles.sectionDescription}>
+            Choose your preferred language for the app interface.
+          </p>
+
+          <div className={styles.languageSelector}>
+            <button
+              className={`${styles.languageButton} ${i18n.language === 'en' ? styles.active : ''}`}
+              onClick={() => handleLanguageChange('en')}
+              type="button"
+            >
+              🇺🇸 English
+            </button>
+            <button
+              className={`${styles.languageButton} ${i18n.language === 'es' ? styles.active : ''}`}
+              onClick={() => handleLanguageChange('es')}
+              type="button"
+            >
+              🇪🇸 Español
+            </button>
+          </div>
+        </section>
+
         {/* Export Section */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Export Data</h2>

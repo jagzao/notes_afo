@@ -13,6 +13,7 @@ import { PropertyField } from '../PropertyField/PropertyField';
 import { PropertyAddModal } from '../PropertyAddModal/PropertyAddModal';
 import { PropertyEditModal } from '../PropertyEditModal';
 import { ReminderPicker } from '../ReminderPicker/ReminderPicker';
+import { AttachmentsPanel } from '../AttachmentsPanel';
 import { useTags } from '../../context/TagsContext';
 import { useProperties } from '../../context/PropertiesContext';
 import { useReminders } from '../../context/RemindersContext';
@@ -447,6 +448,9 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({
                   </div>
                 )}
               </div>
+
+              {/* Attachments Section */}
+              <AttachmentsPanel noteId={note.id} />
             </div>
 
             <div className={styles.footer}>

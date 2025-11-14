@@ -3,7 +3,7 @@
  */
 
 import type { DBSchema } from 'idb';
-import type { Note, Tag, NoteTag, PropertyDefinition, PropertyValue, Reminder } from '@keep-plus-plus/types';
+import type { Note, Tag, NoteTag, PropertyDefinition, PropertyValue, Reminder, Attachment } from '@keep-plus-plus/types';
 
 export const DB_NAME = 'keep-plus-plus';
 export const DB_VERSION = 1;
@@ -64,6 +64,14 @@ export interface KeepPlusPlusDB extends DBSchema {
       'by-user': string;
       'by-fireAt': Date;
       'by-completed': number;
+    };
+  };
+  attachments: {
+    key: string;
+    value: Attachment;
+    indexes: {
+      'by-note': string;
+      'by-type': string;
     };
   };
 }
